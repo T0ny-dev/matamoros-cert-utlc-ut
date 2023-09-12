@@ -24,6 +24,9 @@
     </div>
   </div>
   <div id="certificate-container"></div>
+  <div id="loader" class="loader">
+    <img src="./img/Rhombus.gif" alt="Cargando...">
+  </div>
 
     <script>
         // Lista de correos electrónicos y resultados
@@ -78,6 +81,7 @@
   resultado: '94 / 100',
   nombre: 'Grecia Enid Vicencio De Los Santos'
 }
+
 ];
 
 
@@ -86,12 +90,18 @@
 
             const inputEmail = document.getElementById('email').value;
 
-            // Buscar el correo electrónico en la lista
-            const resultado = listaCorreos.find(item => item.correo === inputEmail);
+            // Mostrar el loader
+            const loader = document.getElementById('loader');
+            loader.style.display = 'block';
 
-            if (resultado) {
-                // Si se encuentra el correo electrónico, generar el certificado con el resultado
-                const name = inputEmail;
+            // Buscar el correo electrónico en la lista (simulado aquí con un retraso de 2 segundos)
+            setTimeout(() => {
+                const resultado = listaCorreos.find(item => item.correo === inputEmail);
+
+                if (resultado) {
+                    // Generar el certificado
+                    // ... (código de generación de PDF aquí) ...
+                    const name = inputEmail;
                 const nombre = resultado.nombre; // Usamos el correo electrónico como nombre
                 const level = resultado.resultado;
                 const date = new Date().toLocaleDateString('es-MX', {
@@ -152,7 +162,7 @@
                 const UTUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/logout.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvbG9nb3V0LnBuZyIsImlhdCI6MTY5NDMxODQwMiwiZXhwIjoxNzI1ODU0NDAyfQ.FflW2R7pd_wb2mcMSOO7o8Rz8XfJ_EwlF_pEU-W69Nc&t=2023-09-10T04%3A00%3A02.009Z';
                 doc.addImage(UTUrl, 'JPEG', 126, 12, 55, 10.5);
 
-                const imageUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/C1.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvQzEucG5nIiwiaWF0IjoxNjk0NTUyNjAxLCJleHAiOjE3MjYwODg2MDF9.aBzFvB9kbH0xh83bO769XJzbNwXXgAaaDGVkyi9duo4&t=2023-09-12T21%3A03%3A21.385Z';
+                const imageUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/C1.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvQzEucG5nIiwiaWF0IjoxNjk0NTYwMDM1LCJleHAiOjE3MjYwOTYwMzV9.F3KOTMx7pxdwB4nktliUARbt_E9Q5Rv5VsjWzbnHqtY&t=2023-09-12T23%3A07%3A15.450Z';
                 doc.addImage(imageUrl, 'JPEG', 70, 80, 70, 70);
                 
                 doc.setFontSize(11);
@@ -186,15 +196,23 @@
                 const BCUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/sello.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2Uvc2VsbG8ucG5nIiwiaWF0IjoxNjk0NTM5MTI0LCJleHAiOjE3MjYwNzUxMjR9.dtuItXgmdcaxlggVym7zO_hnwmI7Wq_gpnI3g43i2Bo&t=2023-09-12T17%3A18%3A45.017Z';
                 doc.addImage(BCUrl, 'JPEG', 130, 210, 55, 55);
 
-                // Mostrar el certificado generado
-                const pdfData = doc.output('blob');
+                    // Ocultar el loader
+                    loader.style.display = 'none';
+
+                    // Mostrar el certificado generado
+                    // ... (código de mostrar el certificado aquí) ...
+                    const pdfData = doc.output('blob');
                 const certificateContainer = document.getElementById('certificate-container');
                 const pdfUrl = URL.createObjectURL(pdfData);
                 certificateContainer.innerHTML = `<iframe width="100%" height="500px" src="${pdfUrl}"></iframe>`;
-            } else {
-                // Si el correo electrónico no se encuentra en la lista, mostrar un mensaje de error
-                alert('El correo electrónico ingresado no se encuentra en la lista.');
-            }
+                } else {
+                    // Si el correo electrónico no se encuentra en la lista, mostrar un mensaje de error
+                    alert('El correo electrónico ingresado no se encuentra en la lista.');
+
+                    // Ocultar el loader en caso de error
+                    loader.style.display = 'none';
+                }
+            }, 2000); // Simula un retraso de 2 segundos para mostrar el loader
         });
     </script>
 </body>

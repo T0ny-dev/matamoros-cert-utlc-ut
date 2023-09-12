@@ -35,12 +35,13 @@ body {
 }
 
 .generator {
-  height: 50vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2vh 5vw;
+  background-color: #ffffff;
 }
 
 .generator__img {
@@ -118,4 +119,28 @@ body {
     top:57vh;
   }
 
+  }
+
+
+  .loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loader img {
+    position: absolute;
+    right: 43vw;
+    top: 50vh;
+  }
+
+  #loader {
+    height: 100vh;
+    width: 100vw;
+    background-color: #ffffff;
   }

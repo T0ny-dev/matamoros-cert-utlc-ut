@@ -31,64 +31,56 @@
     <script>
         // Lista de correos electrónicos y resultados
         const listaCorreos = [
-    { correo: 'edwinpuertos8@gmail.com', resultado: '22 / 100', nombre: 'Edwin Eduardo Puertos Blanco' },
-    { correo: 'sheiladelatorregonzalez@gmail.com', resultado: '24 / 100', nombre: 'Sheila De la Torre Gonzalez' },
-    { correo: 'analiscontrerasevelynvianey@gmail.com', resultado: '24 / 100', nombre: 'Evelyn Vianey Alanis Contreras' },
-    { correo: 'marcogaytana@gmail.com', resultado: '24 / 100', nombre: 'Marco Antonio Gaytan Rojas' },
-    { correo: 'wendyromero7114@gmail.com', resultado: '24 / 100', nombre: 'Wendy Sherlyn Romero Domingo' },
-    { correo: 'luisdroga60@gmai.com', resultado: '24 / 100', nombre: 'Luis Ángel Gonzales Ayala' },
-    { correo: 'michelle.ctz06@gmail.com', resultado: '24 / 100', nombre: 'Michelle' },
-    { correo: 'luzbeydiyadirasantiago@gmail.com', resultado: '20 / 100', nombre: 'Luzbeydi Yadira Santiago Martinez' },
-    { correo: 'chatatuberlvaldez@gmail.com', resultado: '24 / 100', nombre: 'Heydi Nicole Valdez Ponce' },
-    { correo: 'edgarjuanillo98@gmail.com', resultado: '16 / 100', nombre: 'Edgar Tadeo Juanillo Hernandez' },
-    { correo: 'kamilaquiroz24@gmail.com', resultado: '22 / 100', nombre: 'Kamila Alejandra Quiroz Paez' },
-    { correo: 'angelicacarrillo.rmz@gmail.com', resultado: '24 / 100', nombre: 'Angélica Ramírez Carrillo' },
-    { correo: 'ibarrarodriguezfatimasarahi@gmail.com', resultado: '24 / 100', nombre: 'Fátima Sarahí Ibarra Rodriguez' },
-    { correo: 'gueluziel07@gmail.com', resultado: '24 / 100', nombre: 'Uziel Guel Alvarez' },
-    { correo: 'cv34341111@gmail.com', resultado: '24 / 100', nombre: 'Christopher Alexander Vallejo Castro' },
-    { correo: 'alejandraaylin027@gmail.com', resultado: '24 / 100', nombre: 'Aylin Alejandra Medina Flores' },
-    { correo: 'alecordova2311@gmail.com', resultado: '24 / 100', nombre: 'Karla Alejandra Córdova Ramirez' },
-    { correo: 'adalihernandezm12@gmail.com', resultado: '18 / 100', nombre: 'María Adali Hernández Morales' },
-    { correo: 'celestehernandez987@gmail.com', resultado: '18 / 100', nombre: 'Alma Celeste de la Cruz Hernández' },
-    { correo: 'nestorperezjimenez37@gmail.com', resultado: '20 / 100', nombre: 'Kevin Enrique Pérez García' },
-    { correo: 'hsarturoo77@gmail.com', resultado: '22 / 100', nombre: 'Hector Arturo Salinas Garza' },
-    { correo: 'cm949539@gmail.com', resultado: '20 / 100', nombre: 'Cynthia Mendez Castillo' },
-    { correo: 'cuevasalva21@gmail.com', resultado: '24 / 100', nombre: 'Christopher Alvarado Cuevas' },
-    { correo: 'diegogaelruizvillalobos@gmail.com', resultado: '24 / 100', nombre: 'Diego Gael Ruiz Villalobos' },
-    { correo: 'carlo.contreras.2710@gmail.com', resultado: '20 / 100', nombre: 'Carlo Isaac Contreras Navarrete' },
-    { correo: 'alex.gon.garza9@gmail.com', resultado: '22 / 100', nombre: 'Erick Alexander Jael Gonzalez Garza' },
-    { correo: 'oscarcruz3453@gmail.com', resultado: '22 / 100', nombre: 'Oscar Fernando Cruz Marquez' },
-    { correo: 'cruzk3973@gmail.com', resultado: '20 / 100', nombre: 'Kevin Eduardo Cruz Vera' },
-    { correo: 'irvingra1040@gmail.com', resultado: '22 / 100', nombre: 'Irving Romero Aja' },
-    { correo: 'sofia.orta2007@icloud.com', resultado: '22 / 100', nombre: 'Ada Sofia Orta Gutiérrez' },
-    { correo: 'sandyperez.8212@gmail.com', resultado: '24 / 100', nombre: 'Gael Alejandro Gallegos Pérez' },
-    { correo: 'zenonruizreyes522@gmail.com', resultado: '22 / 100', nombre: 'Zenon Guadalupe Ruiz Reyes' },
-    { correo: 'gciazubiriamarianisabelasec10@gmail.com', resultado: '24 / 100', nombre: 'Marian Isabela Garcia Zubiria' },
-    { correo: 'vm466545@gmail.com', resultado: '22 / 100', nombre: 'Valeria Estefania Mendoza Solis' },
-    { correo: 'alonsoomar426@gmail.com', resultado: '24 / 100', nombre: 'José Omar Martinez Alonso' },
-    { correo: 'ruben.arenas3@icloud.com', resultado: '18 / 100', nombre: 'Ruben Arenas Robledo' },
-    { correo: 'jmzvalery@gmail.com', resultado: '24 / 100', nombre: 'Valery Daniela Jiménez Cruz' },
-    { correo: 'veronicatrejo77958@gmail.com', resultado: '24 / 100', nombre: 'Veronica Rubi Trejo Izaguirre' },
-    { correo: 'itziag.0309@gmail.com', resultado: '24 / 100', nombre: 'Alondra Itzel Arellano Garcia' },
-    { correo: 'miriamromerocoronado@gmail.com', resultado: '24 / 100', nombre: 'Miriam Romero Coronado' },
-    { correo: 'higaredamichel520@gmail.com', resultado: '20 / 100', nombre: 'Michel Guadalupe Higareda Quintanilla' },
-    { correo: 'aylinmendoa0305@gmail.com', resultado: '16 / 100', nombre: 'Vanessa Aylin Garcia Mendoza' },
-    { correo: 'gutierrezarenasjennifer@gmail.com', resultado: '24 / 100', nombre: 'Jennifer Gutierrez Arenas' },
-    { correo: 'luzmarg186@gmail.com', resultado: '20 / 100', nombre: 'Karyme Margarita Gomez Pasaran' },
-    { correo: 'yedjrm@gmail.com', resultado: '24 / 100', nombre: 'Yurem Esteban De Jesus Rodriguez Maldonado' },
-    { correo: 'anayeliromerolechuga87@gmail.com', resultado: '22 / 100', nombre: 'Anayeli Romero Lechuga' },
-    { correo: 'mantonio4544@gmail.com', resultado: '20 / 100', nombre: 'Marco Antonio Amador Cobos' },
-    { correo: 'karla.ahumada1803@gmail.com', resultado: '20 / 100', nombre: 'Karla Belen Ahumada Delgaso' },
-    { correo: 'garcia_raquel1@outlook.es', resultado: '22 / 100', nombre: 'Raquel Garcia Santiago' },
-    { correo: 'anethsalinas71@gmail.com', resultado: '24 / 100', nombre: 'Debany Aneth Salinas Gómez' },
-    { correo: 'pepe.avalos2005@gmail.com', resultado: '22 / 100', nombre: 'José Alejandro Ávalos Guajardo' },
-    { correo: 'manuelsal462d@gmail.com', resultado: '24 / 100', nombre: 'Victor Manuel Salgado Reyno' },
-    { correo: 'merari28cruz@gmail.com', resultado: '22 / 100', nombre: 'Jael Merari Medina Cruz' },
-    { correo: 'huertagenesis884@gmail.com', resultado: '20 / 100', nombre: 'Genesis Jaqueline' },
-    { correo: 'cruzangelisaac9@gmail.com', resultado: '24 / 100', nombre: 'Angel Isaac Cruz Reyes' },
-    { correo: 'greciaeqz@gmail.com', resultado: '22 / 100', nombre: 'Grecia Ninibeth Rubio Enriquez' },
-    { correo: 'imartinezmedrano730@gmail.com', resultado: '24 / 100', nombre: 'Iveth Guadalupe Martinez Medrano' }
-
+        { 
+  correo: 'polancoceci9@gmail.com',
+  resultado: '88 / 100',
+  nombre: 'Cecilia Rodriguez Baeza'
+},
+{ 
+  correo: 'isabelsotor40@gmail.com',
+  resultado: '88 / 100',
+  nombre: 'Isabel Soto Romero'
+},
+{ 
+  correo: 'mjoni6481@gmail.com',
+  resultado: '88 / 100',
+  nombre: 'Jonathan Osiel Musigchart Santiago'
+},
+{ 
+  correo: 'jhsqlwiwyqwdh@gmail.com',
+  resultado: '86 / 100',
+  nombre: 'Carlos Cesar Cepeda Gonzalez'
+},
+{ 
+  correo: 'giancarlot1722@gmail.com',
+  resultado: '90 / 100',
+  nombre: 'Giancarlo'
+},
+{ 
+  correo: 'limasofia905@gmail.com',
+  resultado: '88 / 100',
+  nombre: 'Sofia Tatiana Lima'
+},
+{ 
+  correo: 'mantrareynosa@gmail.com',
+  resultado: '86 / 100',
+  nombre: 'Araceli Torre Delfin'
+},
+{ 
+  correo: 'tbmargarita@outlook.com',
+  resultado: '86 / 100',
+  nombre: 'Brenda Margarita Torres Armendariz'
+},
+{ 
+  correo: 'victorivancortezmelchor@gmail.com',
+  resultado: '86 / 100',
+  nombre: 'Víctor Iván Cortez Melchor'
+},
+{ 
+  correo: 'grecivicencio0416@gmail.com',
+  resultado: '94 / 100',
+  nombre: 'Grecia Enid Vicencio De Los Santos'
+}
 ];
 
 
@@ -179,7 +171,7 @@
                 doc.text(`${level}`, 96, 118);
 
                 doc.setFontSize(12);
-                doc.text(`A1 Principiante`, 91, 125);
+                doc.text(`A1 Principiante`, 90, 125);
 
                 doc.setFont("", "bold");
                 doc.setFontSize(14);
