@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Certificado</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="Navbar">
+    <img src="./img/academy.png" alt="">
+  </div>
+  <div class="generator">
+    <form id="certificate-form">
+        <h1>Genera tu certificado con tu datos</h1>
+        <p>Para obtenerlo, por favor introduce tu correo electrónico.</p>
+        <input type="email" id="email" required placeholder="Ingresa tu correo electrónico"><br>
+        <button type="submit">Generar Certificado</button>
+        <p>*Si no puedes obtener tu certificado, visita el centro de negocios de la Universidad Tamaulipeca para obtenerlo.</p>
+    </form>
+    <div class="generator__img">
+      <img src="./img/team.png" alt="">
+    </div>
+  </div>
+  <div id="certificate-container"></div>
+
+    <script>
+        // Lista de correos electrónicos y resultados
+        const listaCorreos = [
+        { correo: 'ivancarvajal329@gmail.com', resultado: '74 / 100', nombre: 'Brandon Ivan Carbajal Moreno' },
+  { correo: 'guerreroriverayaniraalondra@gmail.com', resultado: '72 / 100', nombre: 'Yanira Alondra Guerrero Rivera' },
+  { correo: 'alandelangel20058@gmail.com', resultado: '66 / 100', nombre: 'Alan David Del Angel Dueñes' },
+  { correo: 'valeriamicheljuarezlopez@gmail.com', resultado: '66 / 100', nombre: 'Valeria Michel Juárez López' },
+  { correo: 'alexcalderon1004@gmail.com', resultado: '80 / 100', nombre: 'Alejandro Alatorre Calderon' },
+  { correo: 'edgaralejandroespino@gmail.com', resultado: '74 / 100', nombre: 'Edgar Alejandro Espino Espinoza' },
+  { correo: 'ramiropuente888@gmail.com', resultado: '66 / 100', nombre: 'Ramiro Martínez Puente' },
+  { correo: 'joselinegd23@gmail.com', resultado: '70 / 100', nombre: 'Joseline Abigail Garcia Diaz' },
+  { correo: 'sofiamontserratrdzvzz@gmail.com', resultado: '80 / 100', nombre: 'Sofia Montserrat Rodriguez Vazquez' },
+  { correo: 'danaevarela95@gmail.com', resultado: '78 / 100', nombre: 'Bianca Danae Varela Rodríguez' },
+  { correo: 'ashley.avilapm23@gmail.com', resultado: '76 / 100', nombre: 'Ashley Fernanda Enríquez Avila' },
+  { correo: 'dayanazuniga130808@gmail.com', resultado: '70 / 100', nombre: 'Dayana Nabetse Zuñiga Castillo' },
+  { correo: 'garciaoliver171@gmail.com', resultado: '84 / 100', nombre: 'Oliver García Soto' },
+  { correo: 'reyli.halo@hotmail.com', resultado: '72 / 100', nombre: 'Reyli Jared ríos saldierna' },
+  { correo: 'alexishdzrhz@gmail.com', resultado: '76 / 100', nombre: 'Alexis Rodríguez Hernández' },
+  { correo: 'juliomaldonadobotello@gmail.com', resultado: '68 / 100', nombre: 'Owen eduardo' },
+  { correo: 'roadrigp@gmail.com', resultado: '72 / 100', nombre: 'Rogelio Adrian Gloria Pacheco' },
+  { correo: 'calvarezgmod@gmail.com', resultado: '74 / 100', nombre: 'Christian Alberto Alvarez Ruiz' },
+  { correo: 'arroyofernanda2a@gmail.com', resultado: '68 / 100', nombre: 'Fernanda Arroyo Aguilar' },
+  { correo: 'emmarn069@gmail.com', resultado: '74 / 100', nombre: 'Aarón Emmanuel Beltran Campos' },
+  { correo: 'ostin.diaz1d@gmail.com', resultado: '68 / 100', nombre: 'Ostin Osiel Diaz Tiburcio' },
+  { correo: 'vanessagisellejuarezlopez@gmail.com', resultado: '72 / 100', nombre: 'Vanessa Giselle Juarez Lopez' },
+  { correo: 'jeshua.dimasrdz@gmail.com', resultado: '68 / 100', nombre: 'Jeshua Abiel Dimas Rodriguez' },
+  { correo: 'lidiamdz2020@gmail.com', resultado: '70 / 100', nombre: 'Lidia Suhey Méndez García' },
+  { correo: 'fernandayoselynvillagonzalez@gmail.com', resultado: '70 / 100', nombre: 'Fernanda Yoselyn Villa Gonzalez' },
+  { correo: 'jurbinaa1394@gmail.com', resultado: '66 / 100', nombre: 'Jessica Yoana Urbina Ortiz' },
+  { correo: 'bibo.bimo@icloud.com', resultado: '70 / 100', nombre: 'Luis Sergio Jaramillo Rivera' },
+  { correo: 'samz.diana@hotmail.com', resultado: '76 / 100', nombre: 'Yoselyn Alfonso Saenz' },
+  { correo: 'juarezhamet@gmail.com', resultado: '76 / 100', nombre: 'Hamet Daniel Juarez Gomez' },
+  { correo: 'cristinamarquez2005@gmail.com', resultado: '74 / 100', nombre: 'Cristina Esther Márquez Gámez' },
+  { correo: 'isbac13@hotmail.com', resultado: '76 / 100', nombre: 'Julio Isbac Martínez Cardoza' },
+  { correo: 'rsbobertx27@gmail.com', resultado: '66 / 100', nombre: 'José Roberto Méndez Martínez' },
+  { correo: 'Joanleal2211@hotmail.com', resultado: '70 / 100', nombre: 'Walter Joan Leal Perez' },
+  { correo: 'hectoralt26@gmail.com', resultado: '72 / 100', nombre: 'Héctor Antonio Fiscal Escobar' },
+  { correo: 'abrilcruz131@gmail.com', resultado: '74 / 100', nombre: 'Abril Cruz Larios' },
+  { correo: 'isaacg9260@gmail.com', resultado: '74 / 100', nombre: 'Isaac Ismael García Hernández' },
+  { correo: 'deisy-hernandez@live.com.mx', resultado: '68 / 100', nombre: 'Deisy Yarazet Hernandez Jimenez' },
+  { correo: 'alexatolentinog7@gmail.com', resultado: '68 / 100', nombre: 'Alexa Tolentino García' },
+  { correo: 'alefrairecastillo@gmail.com', resultado: '66 / 100', nombre: 'Alessandra Fraire Castillo' },
+  { correo: 'fridamirandaherrerasanchez@gmail.com', resultado: '66 / 100', nombre: 'Frida Miranda Herrera Sanchez' },
+  { correo: 'ppsangue@gmail.com', resultado: '70 / 100', nombre: 'Miguel angel Sánchez Benavides' },
+  { correo: 'listariance@gmail.com', resultado: '72 / 100', nombre: 'Esdeyner Itzel Hernández López' },
+  { correo: 'ximenaabernon@gmail.com', resultado: '70 / 100', nombre: 'Ximena Pacheco Bernon' },
+  { correo: 'celestechavez2004@hotmail.com', resultado: '70 / 100', nombre: 'Kimberly Celeste Chávez Durán' },
+  { correo: 'Eslijdelgado@gmail.com', resultado: '80 / 100', nombre: 'Esli Janeth Delgado de los Reyes' },
+  { correo: 'soniacruzcruz5@gmail.com', resultado: '68 / 100', nombre: 'Carlos Alfredo Cruz Cruz' },
+  { correo: 'meiimeiiminpark@gmail.com', resultado: '72 / 100', nombre: 'MEIBI VIOLETA MONTELONGO GONZÁLEZ' },
+  { correo: 'lic_luca01@gmail.com', resultado: '76 / 100', nombre: 'JOSE LUIS CASTAÑEDA IZQUIERDO' },
+  { correo: 'salmayesseniac@gmail.com', resultado: '78 / 100', nombre: 'Salma Yessenia Contreras Zarazúa' },
+  { correo: 'my_happy_endingspm414@outlook.es', resultado: '82 / 100', nombre: 'Denisse Stephany Gonzalez Morales' },
+  { correo: 'nataliaesme056@gmail.com', resultado: '84 / 100', nombre: 'natalia esmeralda romero alvarez' },
+  { correo: 'ssamuelrsz2412@gmail.com', resultado: '66 / 100', nombre: 'Samuel Sanchez Resendez' },
+  { correo: 'karliitha.perez96@gmail.com', resultado: '66 / 100', nombre: 'Karla Ivonne Perez Torres' },
+  { correo: 'hbrandoyahir@gmail.com', resultado: '68 / 100', nombre: 'Brando Yahir Hernandez Lugo' },
+  { correo: 'joseresdom78@gmail.com', resultado: '80 / 100', nombre: 'Jose Guadalupe Resendez Dominguez' },
+  { correo: 'paulina.payan@hotmail.com', resultado: '74 / 100', nombre: 'Paulina Payán Dávila' },
+  { correo: 'aranzamoreno0110@gmail.com', resultado: '68 / 100', nombre: 'Aranza Sofia Moreno Tovar' },
+  { correo: 'drumtony666@gmail.com', resultado: '74 / 100', nombre: 'Antonio García Calderón' },
+  { correo: 'micheleguiacastillo@gmail.com', resultado: '72 / 100', nombre: 'Arely Michel Eguia Castillo' },
+  { correo: 'polancogonzaleznicole@gmail.com', resultado: '70 / 100', nombre: 'Nicole Polanco González' },
+  { correo: 'miguelggomez12@hotmail.com', resultado: '80 / 100', nombre: 'Orlando Miguel Garcia Gomez' },
+  { correo: 'mariodavila915@gmail.com', resultado: '72 / 100', nombre: 'Mario Alberto Davila Bautista' },
+  { correo: 'abrilbarcenas98@gmail.com', resultado: '80 / 100', nombre: 'Abril del rosario barcenas martinez' },
+  { correo: 'luisgrodriguezhernandez1@gmail.com', resultado: '78 / 100', nombre: 'Luis Gerardo Rodríguez Hernández' },
+  { correo: 'perez.rdz.joaquin.1hv@gmail.com', resultado: '74 / 100', nombre: 'Joaquín Pérez Rodríguez' },
+  { correo: 'rolandomotiux@hotmail.com', resultado: '70 / 100', nombre: 'Rolando González Pacheco' },
+  { correo: 'juansnk19@icloud.com', resultado: '72 / 100', nombre: 'Juan Ángel Salazar Noriega' },
+  { correo: 'arianvaza@gmail.com', resultado: '68 / 100', nombre: 'Gerardo arian Vazquez' },
+  { correo: 'borustorm123@gmail.com', resultado: '84 / 100', nombre: 'Marco Antonio Vazquez Campos' },
+  { correo: 'jjuan4162@gmail.com', resultado: '70 / 100', nombre: 'Juan Carlos Salazar Barón' },
+  { correo: 'gomezwilly21@gmail.com', resultado: '80 / 100', nombre: 'Willian Eduardo Gómez Hernández' },
+  { correo: 'vm12131983@gmail.com', resultado: '66 / 100', nombre: 'victor hugo martinez avila' },
+  { correo: 'lizbeth.telles03@gmail.com', resultado: '74 / 100', nombre: 'Alondra Lizbeth Telles Torres' },
+  { correo: 'lccytpmoreno.13@gmail.com', resultado: '74 / 100', nombre: 'Nancy Guadalupe Moreno Martínez' },
+  { correo: 'leonardogabrielpachecovera3@gmail.com', resultado: '68 / 100', nombre: 'Leonardo Gabriel Pacheco Vera' },
+  { correo: 'erossebastiann@gmail.com', resultado: '80 / 100', nombre: 'Eros Sebastián Hernández Macías' },
+  { correo: 'angelysustaita@gmail.com', resultado: '66 / 100', nombre: 'Angely Ivette Sustaita Martínez' },
+  { correo: 'calixto99071@gmail.com', resultado: '76 / 100', nombre: 'Jennifer Calixto Angelino' },
+  { correo: 'mvpb9054@gmail.com', resultado: '66 / 100', nombre: 'MAYRA VANESSA PEÑA BAUTISTA' },
+  { correo: 'esmeraldaleonnavarrete@gmail.com', resultado: '70 / 100', nombre: 'Esmeralda leon navarrete' },
+  { correo: 'zami4906@gmail.com', resultado: '70 / 100', nombre: 'Juan Daniel zamarripa padilla' },
+  { correo: 'perezbaudel@gmail.com', resultado: '68 / 100', nombre: 'Baudel Abrahim Pérez Lerma' },
+  { correo: 'Aurelio.Guzgar2022@outlook.com', resultado: '66 / 100', nombre: 'Aurelio Guzman Garcia' },
+  { correo: 'irving.tec@gmail.com', resultado: '76 / 100', nombre: 'Merari Yahaira Santos Rodríguez' },
+  { correo: 'aldodlcv50@gmail.com', resultado: '72 / 100', nombre: 'ALDO DE LA CRUZ VICENTE' },
+  { correo: 'axelpereztierranegra@gmail.com', resultado: '76 / 100', nombre: 'Axel Joaquin Perez Tierranegra' },
+  { correo: 'k4rla007@gmail.com', resultado: '80 / 100', nombre: 'Karla Isabel Hernández Mota' },
+  { correo: 'nicole.tovias06@gmail.com', resultado: '76 / 100', nombre: 'Ivanna Nicole Tovias Treviño' },
+  { correo: 'sandovaljulian559@gmail.com', resultado: '68 / 100', nombre: 'Julian Sandoval' }
+];
+
+
+        document.getElementById('certificate-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const inputEmail = document.getElementById('email').value;
+
+            // Buscar el correo electrónico en la lista
+            const resultado = listaCorreos.find(item => item.correo === inputEmail);
+
+            if (resultado) {
+                // Si se encuentra el correo electrónico, generar el certificado con el resultado
+                const name = inputEmail;
+                const nombre = resultado.nombre; // Usamos el correo electrónico como nombre
+                const level = resultado.resultado;
+                const date = new Date().toLocaleDateString('es-MX', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                });
+
+                const doc = new window.jspdf.jsPDF();
+                
+
+                const backgroundImageUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/bggary.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvYmdnYXJ5LnBuZyIsImlhdCI6MTY5NDUzNzgyMiwiZXhwIjoxNzI2MDczODIyfQ.VRaxYJxjIUmd2gTjGKDl7N-jKUU0PZW8nsEI2wvBi5Q&t=2023-09-12T16%3A57%3A02.482Z';
+                doc.addImage(backgroundImageUrl, 'JPEG', 0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight());
+
+                // Agrega el contenido del certificado con posicionamiento y formato
+                doc.setFont("", "bold");
+                doc.setFontSize(14);
+                doc.text('Certificado a:', 106, 40, { align: 'center' });
+                doc.setFont("", "normal");
+                doc.setTextColor(66, 65, 96);
+                doc.setFontSize(18);
+
+								const pageWidth = doc.internal.pageSize.getWidth();
+								const pageHeight = doc.internal.pageSize.getHeight();
+								const fontSize = 18;
+
+								// Texto que deseas centrar
+								const text = `${nombre}`;
+
+								// Calcula el ancho del texto
+								const textWidth = doc.getTextWidth(text);
+
+								// Calcula la posición X para centrar el texto
+								const textX = (pageWidth - textWidth) / 2;
+
+								// Calcula la posición Y en el centro de la página
+								const textY = pageHeight / 2;
+
+								// Configura la fuente y el tamaño
+								doc.setFontSize(fontSize);
+
+								// Dibuja el texto centrado
+								doc.text(text, textX, 50);
+
+
+
+
+                doc.setTextColor(65, 65, 65);
+                doc.setFontSize(14);
+                doc.setFont("", "normal");
+                doc.setFontSize(14);
+                doc.text(`Ha completado el Placement Test `, 72, 60);
+                doc.text(`con un nivel: B2`, 89, 68);
+
+                const UTLCUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/utlc%201.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvdXRsYyAxLnBuZyIsImlhdCI6MTY5NDMxODIxOSwiZXhwIjoxNzI1ODU0MjE5fQ.8-Mrg-am5h1V8JxDSpmYBAbVrL3ZBXjMp18uhbJBJiM&t=2023-09-10T03%3A56%3A58.916Z';
+                doc.addImage(UTLCUrl, 'JPEG', 30, 10, 15, 15);
+
+                const UTUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/logout.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvbG9nb3V0LnBuZyIsImlhdCI6MTY5NDMxODQwMiwiZXhwIjoxNzI1ODU0NDAyfQ.FflW2R7pd_wb2mcMSOO7o8Rz8XfJ_EwlF_pEU-W69Nc&t=2023-09-10T04%3A00%3A02.009Z';
+                doc.addImage(UTUrl, 'JPEG', 126, 12, 55, 10.5);
+
+                const imageUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/B2.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvQjIucG5nIiwiaWF0IjoxNjk0NTUyMTQxLCJleHAiOjE3MjYwODgxNDF9.5D3ua4xjLdKiMoiKD2lQ43hPZxnLqXciOJmIZy1gN_w&t=2023-09-12T20%3A55%3A41.569Z';
+                doc.addImage(imageUrl, 'JPEG', 70, 80, 70, 70);
+                
+                doc.setFontSize(11);
+                doc.text('Resultado:', 96, 110);
+                doc.setFont("", "bold");
+                doc.setFontSize(16);
+                doc.text(`${level}`, 96, 118);
+
+                doc.setFontSize(12);
+                doc.text(`B2 Intermedio`, 92, 125);
+
+                doc.setFont("", "bold");
+                doc.setFontSize(14);
+                doc.text('Obtenido', 104, 160, { align: 'center' }).setFont('bold');;
+                doc.setFont("", "normal");
+                doc.setFontSize(14);
+                doc.text(`${date}`, 76, 173);
+                doc.setFont("", "normal");
+                doc.setFontSize(14);
+                doc.setFont("", "normal");
+                doc.text('RESULTADOS EN PUNTOS', 104, 190, { align: 'center' });
+                doc.setFont("", "normal");
+                doc.setTextColor(66, 65, 96);
+                doc.text(`Nivel A1- Principiante (0 - 25 pts)`, 30, 220);
+                doc.text(`Nivel A2- Básico (26 - 45 pts)`, 30, 228);
+                doc.text(`Nivel B1- Umbral (46 - 65 pts)`, 30, 236);
+                doc.text(`Nivel B2- Intermedio (66 - 85 pts)`, 30, 244);
+                doc.text(`Nivel C1- Competente (86 - 95 pts)`, 30, 252);
+                doc.text(`Nivel C2- Maestría (96 - 100 pts)`, 30, 260);
+
+                const BCUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/sello.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2Uvc2VsbG8ucG5nIiwiaWF0IjoxNjk0NTM5MTI0LCJleHAiOjE3MjYwNzUxMjR9.dtuItXgmdcaxlggVym7zO_hnwmI7Wq_gpnI3g43i2Bo&t=2023-09-12T17%3A18%3A45.017Z';
+                doc.addImage(BCUrl, 'JPEG', 130, 210, 55, 55);
+
+                // Mostrar el certificado generado
+                const pdfData = doc.output('blob');
+                const certificateContainer = document.getElementById('certificate-container');
+                const pdfUrl = URL.createObjectURL(pdfData);
+                certificateContainer.innerHTML = `<iframe width="100%" height="500px" src="${pdfUrl}"></iframe>`;
+            } else {
+                // Si el correo electrónico no se encuentra en la lista, mostrar un mensaje de error
+                alert('El correo electrónico ingresado no se encuentra en la lista.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Certificado</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="Navbar">
+    <img src="./img/academy.png" alt="">
+  </div>
+  <div class="generator">
+    <form id="certificate-form">
+        <h1>Genera tu certificado con tu datos</h1>
+        <p>Para obtenerlo, por favor introduce tu correo electrónico.</p>
+        <input type="email" id="email" required placeholder="Ingresa tu correo electrónico"><br>
+        <button type="submit">Generar Certificado</button>
+        <p>*Si no puedes obtener tu certificado, visita el centro de negocios de la Universidad Tamaulipeca para obtenerlo.</p>
+    </form>
+    <div class="generator__img">
+      <img src="./img/team.png" alt="">
+    </div>
+  </div>
+  <div id="certificate-container"></div>
+
+    <script>
+        // Lista de correos electrónicos y resultados
+        const listaCorreos = [
+    { correo: 'edwinpuertos8@gmail.com', resultado: '22 / 100', nombre: 'Edwin Eduardo Puertos Blanco' },
+    { correo: 'sheiladelatorregonzalez@gmail.com', resultado: '24 / 100', nombre: 'Sheila De la Torre Gonzalez' },
+    { correo: 'analiscontrerasevelynvianey@gmail.com', resultado: '24 / 100', nombre: 'Evelyn Vianey Alanis Contreras' },
+    { correo: 'marcogaytana@gmail.com', resultado: '24 / 100', nombre: 'Marco Antonio Gaytan Rojas' },
+    { correo: 'wendyromero7114@gmail.com', resultado: '24 / 100', nombre: 'Wendy Sherlyn Romero Domingo' },
+    { correo: 'luisdroga60@gmai.com', resultado: '24 / 100', nombre: 'Luis Ángel Gonzales Ayala' },
+    { correo: 'michelle.ctz06@gmail.com', resultado: '24 / 100', nombre: 'Michelle' },
+    { correo: 'luzbeydiyadirasantiago@gmail.com', resultado: '20 / 100', nombre: 'Luzbeydi Yadira Santiago Martinez' },
+    { correo: 'chatatuberlvaldez@gmail.com', resultado: '24 / 100', nombre: 'Heydi Nicole Valdez Ponce' },
+    { correo: 'edgarjuanillo98@gmail.com', resultado: '16 / 100', nombre: 'Edgar Tadeo Juanillo Hernandez' },
+    { correo: 'kamilaquiroz24@gmail.com', resultado: '22 / 100', nombre: 'Kamila Alejandra Quiroz Paez' },
+    { correo: 'angelicacarrillo.rmz@gmail.com', resultado: '24 / 100', nombre: 'Angélica Ramírez Carrillo' },
+    { correo: 'ibarrarodriguezfatimasarahi@gmail.com', resultado: '24 / 100', nombre: 'Fátima Sarahí Ibarra Rodriguez' },
+    { correo: 'gueluziel07@gmail.com', resultado: '24 / 100', nombre: 'Uziel Guel Alvarez' },
+    { correo: 'cv34341111@gmail.com', resultado: '24 / 100', nombre: 'Christopher Alexander Vallejo Castro' },
+    { correo: 'alejandraaylin027@gmail.com', resultado: '24 / 100', nombre: 'Aylin Alejandra Medina Flores' },
+    { correo: 'alecordova2311@gmail.com', resultado: '24 / 100', nombre: 'Karla Alejandra Córdova Ramirez' },
+    { correo: 'adalihernandezm12@gmail.com', resultado: '18 / 100', nombre: 'María Adali Hernández Morales' },
+    { correo: 'celestehernandez987@gmail.com', resultado: '18 / 100', nombre: 'Alma Celeste de la Cruz Hernández' },
+    { correo: 'nestorperezjimenez37@gmail.com', resultado: '20 / 100', nombre: 'Kevin Enrique Pérez García' },
+    { correo: 'hsarturoo77@gmail.com', resultado: '22 / 100', nombre: 'Hector Arturo Salinas Garza' },
+    { correo: 'cm949539@gmail.com', resultado: '20 / 100', nombre: 'Cynthia Mendez Castillo' },
+    { correo: 'cuevasalva21@gmail.com', resultado: '24 / 100', nombre: 'Christopher Alvarado Cuevas' },
+    { correo: 'diegogaelruizvillalobos@gmail.com', resultado: '24 / 100', nombre: 'Diego Gael Ruiz Villalobos' },
+    { correo: 'carlo.contreras.2710@gmail.com', resultado: '20 / 100', nombre: 'Carlo Isaac Contreras Navarrete' },
+    { correo: 'alex.gon.garza9@gmail.com', resultado: '22 / 100', nombre: 'Erick Alexander Jael Gonzalez Garza' },
+    { correo: 'oscarcruz3453@gmail.com', resultado: '22 / 100', nombre: 'Oscar Fernando Cruz Marquez' },
+    { correo: 'cruzk3973@gmail.com', resultado: '20 / 100', nombre: 'Kevin Eduardo Cruz Vera' },
+    { correo: 'irvingra1040@gmail.com', resultado: '22 / 100', nombre: 'Irving Romero Aja' },
+    { correo: 'sofia.orta2007@icloud.com', resultado: '22 / 100', nombre: 'Ada Sofia Orta Gutiérrez' },
+    { correo: 'sandyperez.8212@gmail.com', resultado: '24 / 100', nombre: 'Gael Alejandro Gallegos Pérez' },
+    { correo: 'zenonruizreyes522@gmail.com', resultado: '22 / 100', nombre: 'Zenon Guadalupe Ruiz Reyes' },
+    { correo: 'gciazubiriamarianisabelasec10@gmail.com', resultado: '24 / 100', nombre: 'Marian Isabela Garcia Zubiria' },
+    { correo: 'vm466545@gmail.com', resultado: '22 / 100', nombre: 'Valeria Estefania Mendoza Solis' },
+    { correo: 'alonsoomar426@gmail.com', resultado: '24 / 100', nombre: 'José Omar Martinez Alonso' },
+    { correo: 'ruben.arenas3@icloud.com', resultado: '18 / 100', nombre: 'Ruben Arenas Robledo' },
+    { correo: 'jmzvalery@gmail.com', resultado: '24 / 100', nombre: 'Valery Daniela Jiménez Cruz' },
+    { correo: 'veronicatrejo77958@gmail.com', resultado: '24 / 100', nombre: 'Veronica Rubi Trejo Izaguirre' },
+    { correo: 'itziag.0309@gmail.com', resultado: '24 / 100', nombre: 'Alondra Itzel Arellano Garcia' },
+    { correo: 'miriamromerocoronado@gmail.com', resultado: '24 / 100', nombre: 'Miriam Romero Coronado' },
+    { correo: 'higaredamichel520@gmail.com', resultado: '20 / 100', nombre: 'Michel Guadalupe Higareda Quintanilla' },
+    { correo: 'aylinmendoa0305@gmail.com', resultado: '16 / 100', nombre: 'Vanessa Aylin Garcia Mendoza' },
+    { correo: 'gutierrezarenasjennifer@gmail.com', resultado: '24 / 100', nombre: 'Jennifer Gutierrez Arenas' },
+    { correo: 'luzmarg186@gmail.com', resultado: '20 / 100', nombre: 'Karyme Margarita Gomez Pasaran' },
+    { correo: 'yedjrm@gmail.com', resultado: '24 / 100', nombre: 'Yurem Esteban De Jesus Rodriguez Maldonado' },
+    { correo: 'anayeliromerolechuga87@gmail.com', resultado: '22 / 100', nombre: 'Anayeli Romero Lechuga' },
+    { correo: 'mantonio4544@gmail.com', resultado: '20 / 100', nombre: 'Marco Antonio Amador Cobos' },
+    { correo: 'karla.ahumada1803@gmail.com', resultado: '20 / 100', nombre: 'Karla Belen Ahumada Delgaso' },
+    { correo: 'garcia_raquel1@outlook.es', resultado: '22 / 100', nombre: 'Raquel Garcia Santiago' },
+    { correo: 'anethsalinas71@gmail.com', resultado: '24 / 100', nombre: 'Debany Aneth Salinas Gómez' },
+    { correo: 'pepe.avalos2005@gmail.com', resultado: '22 / 100', nombre: 'José Alejandro Ávalos Guajardo' },
+    { correo: 'manuelsal462d@gmail.com', resultado: '24 / 100', nombre: 'Victor Manuel Salgado Reyno' },
+    { correo: 'merari28cruz@gmail.com', resultado: '22 / 100', nombre: 'Jael Merari Medina Cruz' },
+    { correo: 'huertagenesis884@gmail.com', resultado: '20 / 100', nombre: 'Genesis Jaqueline' },
+    { correo: 'cruzangelisaac9@gmail.com', resultado: '24 / 100', nombre: 'Angel Isaac Cruz Reyes' },
+    { correo: 'greciaeqz@gmail.com', resultado: '22 / 100', nombre: 'Grecia Ninibeth Rubio Enriquez' },
+    { correo: 'imartinezmedrano730@gmail.com', resultado: '24 / 100', nombre: 'Iveth Guadalupe Martinez Medrano' }
+];
+
+
+        document.getElementById('certificate-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const inputEmail = document.getElementById('email').value;
+
+            // Buscar el correo electrónico en la lista
+            const resultado = listaCorreos.find(item => item.correo === inputEmail);
+
+            if (resultado) {
+                // Si se encuentra el correo electrónico, generar el certificado con el resultado
+                const name = inputEmail;
+                const nombre = resultado.nombre; // Usamos el correo electrónico como nombre
+                const level = resultado.resultado;
+                const date = new Date().toLocaleDateString('es-MX', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                });
+
+                const doc = new window.jspdf.jsPDF();
+                
+
+                const backgroundImageUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/bggary.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvYmdnYXJ5LnBuZyIsImlhdCI6MTY5NDUzNzgyMiwiZXhwIjoxNzI2MDczODIyfQ.VRaxYJxjIUmd2gTjGKDl7N-jKUU0PZW8nsEI2wvBi5Q&t=2023-09-12T16%3A57%3A02.482Z';
+                doc.addImage(backgroundImageUrl, 'JPEG', 0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight());
+
+                // Agrega el contenido del certificado con posicionamiento y formato
+                doc.setFont("", "bold");
+                doc.setFontSize(14);
+                doc.text('Certificado a:', 106, 40, { align: 'center' });
+                doc.setFont("", "normal");
+                doc.setTextColor(66, 65, 96);
+                doc.setFontSize(18);
+
+								const pageWidth = doc.internal.pageSize.getWidth();
+								const pageHeight = doc.internal.pageSize.getHeight();
+								const fontSize = 18;
+
+								// Texto que deseas centrar
+								const text = `${nombre}`;
+
+								// Calcula el ancho del texto
+								const textWidth = doc.getTextWidth(text);
+
+								// Calcula la posición X para centrar el texto
+								const textX = (pageWidth - textWidth) / 2;
+
+								// Calcula la posición Y en el centro de la página
+								const textY = pageHeight / 2;
+
+								// Configura la fuente y el tamaño
+								doc.setFontSize(fontSize);
+
+								// Dibuja el texto centrado
+								doc.text(text, textX, 50);
+
+
+
+
+                doc.setTextColor(65, 65, 65);
+                doc.setFontSize(14);
+                doc.setFont("", "normal");
+                doc.setFontSize(14);
+                doc.text(`Ha completado el Placement Test `, 72, 60);
+                doc.text(`con un nivel: A1`, 89, 68);
+
+                const UTLCUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/utlc%201.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvdXRsYyAxLnBuZyIsImlhdCI6MTY5NDMxODIxOSwiZXhwIjoxNzI1ODU0MjE5fQ.8-Mrg-am5h1V8JxDSpmYBAbVrL3ZBXjMp18uhbJBJiM&t=2023-09-10T03%3A56%3A58.916Z';
+                doc.addImage(UTLCUrl, 'JPEG', 30, 10, 15, 15);
+
+                const UTUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/logout.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvbG9nb3V0LnBuZyIsImlhdCI6MTY5NDMxODQwMiwiZXhwIjoxNzI1ODU0NDAyfQ.FflW2R7pd_wb2mcMSOO7o8Rz8XfJ_EwlF_pEU-W69Nc&t=2023-09-10T04%3A00%3A02.009Z';
+                doc.addImage(UTUrl, 'JPEG', 126, 12, 55, 10.5);
+
+                const imageUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/a1.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvYTEucG5nIiwiaWF0IjoxNjk0MzE5MDY1LCJleHAiOjE3MjU4NTUwNjV9.TsK2SX4uwSlcjH5OY2NRTAdhcLgZzJP1qHq2Nu_6Q9c&t=2023-09-10T04%3A11%3A05.063Z';
+                doc.addImage(imageUrl, 'JPEG', 70, 80, 70, 70);
+                
+                doc.setFontSize(11);
+                doc.text('Resultado:', 96, 110);
+                doc.setFont("", "bold");
+                doc.setFontSize(16);
+                doc.text(`${level}`, 96, 118);
+
+                doc.setFontSize(12);
+                doc.text(`A1 Principiante`, 90, 125);
+
+                doc.setFont("", "bold");
+                doc.setFontSize(14);
+                doc.text('Obtenido', 104, 160, { align: 'center' }).setFont('bold');;
+                doc.setFont("", "normal");
+                doc.setFontSize(14);
+                doc.text(`${date}`, 76, 173);
+                doc.setFont("", "normal");
+                doc.setFontSize(14);
+                doc.setFont("", "normal");
+                doc.text('RESULTADOS EN PUNTOS', 104, 190, { align: 'center' });
+                doc.setFont("", "normal");
+                doc.setTextColor(66, 65, 96);
+                doc.text(`Nivel A1- Principiante (0 - 25 pts)`, 30, 220);
+                doc.text(`Nivel A2- Básico (26 - 45 pts)`, 30, 228);
+                doc.text(`Nivel B1- Umbral (46 - 65 pts)`, 30, 236);
+                doc.text(`Nivel B2- Intermedio (66 - 85 pts)`, 30, 244);
+                doc.text(`Nivel C1- Competente (86 - 95 pts)`, 30, 252);
+                doc.text(`Nivel C2- Maestría (96 - 100 pts)`, 30, 260);
+
+                const BCUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/sello.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2Uvc2VsbG8ucG5nIiwiaWF0IjoxNjk0NTM5MTI0LCJleHAiOjE3MjYwNzUxMjR9.dtuItXgmdcaxlggVym7zO_hnwmI7Wq_gpnI3g43i2Bo&t=2023-09-12T17%3A18%3A45.017Z';
+                doc.addImage(BCUrl, 'JPEG', 130, 210, 55, 55);
+
+                // Mostrar el certificado generado
+                const pdfData = doc.output('blob');
+                const certificateContainer = document.getElementById('certificate-container');
+                const pdfUrl = URL.createObjectURL(pdfData);
+                certificateContainer.innerHTML = `<iframe width="100%" height="500px" src="${pdfUrl}"></iframe>`;
+            } else {
+                // Si el correo electrónico no se encuentra en la lista, mostrar un mensaje de error
+                alert('El correo electrónico ingresado no se encuentra en la lista.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Certificado</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="Navbar">
+    <img src="./img/academy.png" alt="">
+  </div>
+  <div class="generator">
+    <form id="certificate-form">
+        <h1>Genera tu certificado con tu datos</h1>
+        <p>Para obtenerlo, por favor introduce tu correo electrónico.</p>
+        <input type="email" id="email" required placeholder="Ingresa tu correo electrónico"><br>
+        <button type="submit">Generar Certificado</button>
+        <p>*Si no puedes obtener tu certificado, visita el centro de negocios de la Universidad Tamaulipeca para obtenerlo.</p>
+    </form>
+    <div class="generator__img">
+      <img src="./img/team.png" alt="">
+    </div>
+  </div>
+  <div id="certificate-container"></div>
+
+    <script>
+        // Lista de correos electrónicos y resultados
+        const listaCorreos = [
+        { 
+  correo: 'polancoceci9@gmail.com',
+  resultado: '88 / 100',
+  nombre: 'Cecilia Rodriguez Baeza'
+},
+{ 
+  correo: 'isabelsotor40@gmail.com',
+  resultado: '88 / 100',
+  nombre: 'Isabel Soto Romero'
+},
+{ 
+  correo: 'mjoni6481@gmail.com',
+  resultado: '88 / 100',
+  nombre: 'Jonathan Osiel Musigchart Santiago'
+},
+{ 
+  correo: 'jhsqlwiwyqwdh@gmail.com',
+  resultado: '86 / 100',
+  nombre: 'Carlos Cesar Cepeda Gonzalez'
+},
+{ 
+  correo: 'giancarlot1722@gmail.com',
+  resultado: '90 / 100',
+  nombre: 'Giancarlo'
+},
+{ 
+  correo: 'limasofia905@gmail.com',
+  resultado: '88 / 100',
+  nombre: 'Sofia Tatiana Lima'
+},
+{ 
+  correo: 'mantrareynosa@gmail.com',
+  resultado: '86 / 100',
+  nombre: 'Araceli Torre Delfin'
+},
+{ 
+  correo: 'tbmargarita@outlook.com',
+  resultado: '86 / 100',
+  nombre: 'Brenda Margarita Torres Armendariz'
+},
+{ 
+  correo: 'victorivancortezmelchor@gmail.com',
+  resultado: '86 / 100',
+  nombre: 'Víctor Iván Cortez Melchor'
+},
+{ 
+  correo: 'grecivicencio0416@gmail.com',
+  resultado: '94 / 100',
+  nombre: 'Grecia Enid Vicencio De Los Santos'
+}
+];
+
+
+        document.getElementById('certificate-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const inputEmail = document.getElementById('email').value;
+
+            // Buscar el correo electrónico en la lista
+            const resultado = listaCorreos.find(item => item.correo === inputEmail);
+
+            if (resultado) {
+                // Si se encuentra el correo electrónico, generar el certificado con el resultado
+                const name = inputEmail;
+                const nombre = resultado.nombre; // Usamos el correo electrónico como nombre
+                const level = resultado.resultado;
+                const date = new Date().toLocaleDateString('es-MX', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                });
+
+                const doc = new window.jspdf.jsPDF();
+                
+
+                const backgroundImageUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/bggary.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvYmdnYXJ5LnBuZyIsImlhdCI6MTY5NDUzNzgyMiwiZXhwIjoxNzI2MDczODIyfQ.VRaxYJxjIUmd2gTjGKDl7N-jKUU0PZW8nsEI2wvBi5Q&t=2023-09-12T16%3A57%3A02.482Z';
+                doc.addImage(backgroundImageUrl, 'JPEG', 0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight());
+
+                // Agrega el contenido del certificado con posicionamiento y formato
+                doc.setFont("", "bold");
+                doc.setFontSize(14);
+                doc.text('Certificado a:', 106, 40, { align: 'center' });
+                doc.setFont("", "normal");
+                doc.setTextColor(66, 65, 96);
+                doc.setFontSize(18);
+
+								const pageWidth = doc.internal.pageSize.getWidth();
+								const pageHeight = doc.internal.pageSize.getHeight();
+								const fontSize = 18;
+
+								// Texto que deseas centrar
+								const text = `${nombre}`;
+
+								// Calcula el ancho del texto
+								const textWidth = doc.getTextWidth(text);
+
+								// Calcula la posición X para centrar el texto
+								const textX = (pageWidth - textWidth) / 2;
+
+								// Calcula la posición Y en el centro de la página
+								const textY = pageHeight / 2;
+
+								// Configura la fuente y el tamaño
+								doc.setFontSize(fontSize);
+
+								// Dibuja el texto centrado
+								doc.text(text, textX, 50);
+
+
+
+
+                doc.setTextColor(65, 65, 65);
+                doc.setFontSize(14);
+                doc.setFont("", "normal");
+                doc.setFontSize(14);
+                doc.text(`Ha completado el Placement Test `, 72, 60);
+                doc.text(`con un nivel: C1`, 89, 68);
+
+                const UTLCUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/utlc%201.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvdXRsYyAxLnBuZyIsImlhdCI6MTY5NDMxODIxOSwiZXhwIjoxNzI1ODU0MjE5fQ.8-Mrg-am5h1V8JxDSpmYBAbVrL3ZBXjMp18uhbJBJiM&t=2023-09-10T03%3A56%3A58.916Z';
+                doc.addImage(UTLCUrl, 'JPEG', 30, 10, 15, 15);
+
+                const UTUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/logout.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvbG9nb3V0LnBuZyIsImlhdCI6MTY5NDMxODQwMiwiZXhwIjoxNzI1ODU0NDAyfQ.FflW2R7pd_wb2mcMSOO7o8Rz8XfJ_EwlF_pEU-W69Nc&t=2023-09-10T04%3A00%3A02.009Z';
+                doc.addImage(UTUrl, 'JPEG', 126, 12, 55, 10.5);
+
+                const imageUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/C1.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2UvQzEucG5nIiwiaWF0IjoxNjk0NTUyNjAxLCJleHAiOjE3MjYwODg2MDF9.aBzFvB9kbH0xh83bO769XJzbNwXXgAaaDGVkyi9duo4&t=2023-09-12T21%3A03%3A21.385Z';
+                doc.addImage(imageUrl, 'JPEG', 70, 80, 70, 70);
+                
+                doc.setFontSize(11);
+                doc.text('Resultado:', 96, 110);
+                doc.setFont("", "bold");
+                doc.setFontSize(16);
+                doc.text(`${level}`, 96, 118);
+
+                doc.setFontSize(12);
+                doc.text(`C1 Competente`, 92, 125);
+
+                doc.setFont("", "bold");
+                doc.setFontSize(14);
+                doc.text('Obtenido', 104, 160, { align: 'center' }).setFont('bold');;
+                doc.setFont("", "normal");
+                doc.setFontSize(14);
+                doc.text(`${date}`, 76, 173);
+                doc.setFont("", "normal");
+                doc.setFontSize(14);
+                doc.setFont("", "normal");
+                doc.text('RESULTADOS EN PUNTOS', 104, 190, { align: 'center' });
+                doc.setFont("", "normal");
+                doc.setTextColor(66, 65, 96);
+                doc.text(`Nivel A1- Principiante (0 - 25 pts)`, 30, 220);
+                doc.text(`Nivel A2- Básico (26 - 45 pts)`, 30, 228);
+                doc.text(`Nivel B1- Umbral (46 - 65 pts)`, 30, 236);
+                doc.text(`Nivel B2- Intermedio (66 - 85 pts)`, 30, 244);
+                doc.text(`Nivel C1- Competente (86 - 95 pts)`, 30, 252);
+                doc.text(`Nivel C2- Maestría (96 - 100 pts)`, 30, 260);
+
+                const BCUrl = 'https://qxztypvwedaskoflnbno.supabase.co/storage/v1/object/sign/Course%20image/sello.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJDb3Vyc2UgaW1hZ2Uvc2VsbG8ucG5nIiwiaWF0IjoxNjk0NTM5MTI0LCJleHAiOjE3MjYwNzUxMjR9.dtuItXgmdcaxlggVym7zO_hnwmI7Wq_gpnI3g43i2Bo&t=2023-09-12T17%3A18%3A45.017Z';
+                doc.addImage(BCUrl, 'JPEG', 130, 210, 55, 55);
+
+                // Mostrar el certificado generado
+                const pdfData = doc.output('blob');
+                const certificateContainer = document.getElementById('certificate-container');
+                const pdfUrl = URL.createObjectURL(pdfData);
+                certificateContainer.innerHTML = `<iframe width="100%" height="500px" src="${pdfUrl}"></iframe>`;
+            } else {
+                // Si el correo electrónico no se encuentra en la lista, mostrar un mensaje de error
+                alert('El correo electrónico ingresado no se encuentra en la lista.');
+            }
+        });
+    </script>
+</body>
+</html>
